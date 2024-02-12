@@ -1,21 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const tokenSlice = createSlice({
+  name: 'token',
   initialState: {
-    counter: 0,
+    token: '',
   },
   reducers: {
-    increment: state => {
-      state.counter += 1;
-    },
-    decrement: state => {
-      state.counter -= 1;
+    getToken: (state, action) => {
+      console.log('token inside reducer', action.payload);
+      state.token = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {increment, decrement} = counterSlice.actions;
+export const {getToken} = tokenSlice.actions;
 
-export default counterSlice.reducer;
+export default tokenSlice.reducer;

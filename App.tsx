@@ -12,6 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Home from './src/screens/Home';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
+import AskQuestions from './src/screens/Questions';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -19,13 +20,21 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={'Login'}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="Ask Questions" component={AskQuestions} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
-  // return <Login />;
 };
 
 export default App;

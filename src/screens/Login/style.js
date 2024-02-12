@@ -5,15 +5,35 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     paddingTop: 44,
-    paddingHorizontal: 22,
+    paddingHorizontal: 35,
   },
-  headerImage: {width: 100.36, height: 40},
   loginText: {
-    fontSize: 25,
+    fontSize: 40,
     textAlign: 'left',
     color: 'black',
-    marginTop: 64,
-    fontFamily: 'Poppins-Medium',
+    marginTop: 20,
+    fontFamily: 'Poppins-SemiBold',
+    alignSelf: 'center',
+  },
+  emailText: {
+    color: 'black',
+    fontSize: 17,
+    marginTop: 50,
+    fontFamily: 'Poppins-SemiBold',
+  },
+
+  passwordText: {
+    color: 'black',
+    fontSize: 17,
+    marginTop: 30,
+    fontFamily: 'Poppins-SemiBold',
+  },
+
+  bottomText: {
+    color: 'grey',
+    fontSize: 15,
+    marginTop: 30,
+    fontFamily: 'Poppins-Regular',
   },
   textInput: {
     height: 65,
@@ -22,27 +42,31 @@ export const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     borderRadius: 10,
   },
-  passwordContainer: {marginTop: 38},
-  eyeContainer: {
-    position: 'absolute',
-    right: 10,
-    top: 27,
-  },
-  eyeImage: {
-    width: 18.16,
-    height: 13.62,
-  },
   loginButton: {
     backgroundColor: '#4B68FF',
     height: 60,
-    marginTop: 65,
-    borderRadius: 30,
+    marginTop: 40,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomButton: {
+    backgroundColor: 'white',
+
+    height: 60,
+    marginTop: 25,
+    borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
   logText: {
     color: 'white',
     fontFamily: 'Poppins-Regular',
+    fontSize: 17,
+  },
+  bottomButtonText: {
+    color: '#4B68FF',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 17,
   },
 });

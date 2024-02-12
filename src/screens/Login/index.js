@@ -1,28 +1,16 @@
 import React, {useState} from 'react';
-import {
-  Image,
-  Text,
-  TextInput,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Images} from '../../utils/images';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {styles} from './style';
 import {strings} from '../../utils/strings';
 import Snackbar from 'react-native-snackbar';
-import {useNavigation} from '@react-navigation/native';
-import AppApi, {postMethod} from '../../api/appAPI';
+import {login} from '../../api/appAPI';
+import {useDispatch} from 'react-redux';
+import {getToken} from '../../redux/reducer';
 
 const Login = props => {
-  const [isSecure, setSecure] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassWord] = useState('');
-  // const navigation = useNavigation();
-
-  const onEyeClick = () => {
-    setSecure(!isSecure);
-  };
+  const dispatch = useDispatch();
 
   const emailValidation = text => {
     setEmail(text);
@@ -32,7 +20,7 @@ const Login = props => {
     setPassWord(text);
   };
 
-  const checkValidation = async () => {
+  const checkValidation = () => {
     if (email.trim() === '' || password.trim() === '') {
       Snackbar.show({
         text: 'Plaese Enter the Email and Password',
@@ -47,18 +35,23 @@ const Login = props => {
         backgroundColor: 'green',
         textColor: 'white',
       });
-      //const response = await postMethod(email, password);
-      //console.log(response.data.data.user.email);
-      props.navigation.navigate('Home', {email: ''});
+      login(email, password, response);
+      props.navigation.navigate('Home');
     }
   };
- 
+
+  const response = data => {
+    console.log(data);
+    if (data?.data?.access_token !== null) {
+      console.log('token', data?.data?.access_token?.token);
+      dispatch(getToken(data?.data?.access_token?.token));
+    }
+  };
 
   function renderHeader() {
     return (
       <>
-        <Image source={Images.Login.header} style={styles.headerImage} />
-        <Text style={styles.loginText}>{strings.constant.login}</Text>
+        <Text style={styles.loginText}>{strings.constant.Header}</Text>
       </>
     );
   }
@@ -66,25 +59,22 @@ const Login = props => {
   function renderInputs() {
     return (
       <>
+        <Text style={styles.emailText}>{strings.constant.emailText}</Text>
         <TextInput
-          style={[styles.textInput, {marginTop: 33}]}
+          style={[styles.textInput, {marginTop: 15}]}
           placeholder={strings.constant.email}
+          placeholderTextColor={'grey'}
           onChangeText={emailValidation}
         />
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={styles.textInput}
-            secureTextEntry={isSecure}
-            placeholder={strings.constant.password}
-            onChangeText={passwordValidation}
-          />
-          <TouchableOpacity onPress={onEyeClick} style={styles.eyeContainer}>
-            <Image
-              style={styles.eyeImage}
-              source={isSecure ? Images.Login.view : Images.Login.hide}
-            />
-          </TouchableOpacity>
-        </View>
+
+        <Text style={styles.passwordText}>{strings.constant.passwordText}</Text>
+        <TextInput
+          style={[styles.textInput, {marginTop: 15}]}
+          secureTextEntry={true}
+          placeholder={strings.constant.password}
+          placeholderTextColor={'grey'}
+          onChangeText={passwordValidation}
+        />
       </>
     );
   }
@@ -98,11 +88,34 @@ const Login = props => {
       </>
     );
   }
+
+  function bottomText() {
+    return (
+      <>
+        <Text style={styles.bottomText}>{strings.constant.bottomText}</Text>
+      </>
+    );
+  }
+
+  function bottomButton() {
+    return (
+      <>
+        <TouchableOpacity style={styles.bottomButton} onPress={checkValidation}>
+          <Text style={styles.bottomButtonText}>
+            {strings.constant.bottomBottonText}
+          </Text>
+        </TouchableOpacity>
+      </>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {renderHeader()}
       {renderInputs()}
       {button()}
+      {bottomText()}
+      {bottomButton()}
     </View>
   );
 };

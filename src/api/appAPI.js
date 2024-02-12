@@ -1,10 +1,20 @@
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 import Snackbar from 'react-native-snackbar';
+import {useSelector} from 'react-redux';
 
-export function getMethod(res) {
+export function getMethod(res, token) {
+  console.log('getmethod', token);
+  const header = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+  console.log(header);
+
   axios
-    .get('https://dummyjson.com/products')
+    .get('https://portal.learnabble.xyz/api/v2/accounts/me/questions', {
+      headers: header,
+    })
     .then(function (response) {
       res(response);
       //   setData(response.data.data);
@@ -16,50 +26,48 @@ export function getMethod(res) {
     });
 }
 
-export async function postMethod(email, password) {
-  let data = await axios.post(
-    'https://api-analyst.iscriptsdemo.com/v1/api/auth/login',
-    {
+export async function login(email, password, res) {
+  axios
+    .post('https://portal.learnabble.xyz/api/v2/accounts/login/', {
       email: email,
       password: password,
-    },
-  );
-  return data;
-}
-
-export function putMethod() {
-  axios
-    .put('https://jsonplaceholder.typicode.com/posts/1', {
-      title: 'Updated Post Title',
-      body: 'This is the updated body of the post.',
     })
     .then(function (response) {
-      console.log('PUT SUCCESS------   ', JSON.stringify(response));
-      Snackbar.show({
-        text: 'Success',
-        duration: Snackbar.LENGTH_LONG,
-        backgroundColor: 'green',
-        textColor: 'white',
-      });
+      res(response);
+      //   setData(response.data.data);
     })
     .catch(function (error) {
-      console.log('ERRORRRR', error);
+      res(error);
+
+      console.log(error);
     });
 }
 
-export function deleteMethod() {
+export async function addQuestion(question, describe, res, token) {
+  const header = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
   axios
-    .delete('https://jsonplaceholder.typicode.com/posts/1')
+    .post(
+      'https://portal.learnabble.xyz/api/v2/core/questions/add/',
+      {
+        question_title: question,
+        question_description: describe,
+        model: 'course',
+        id: 1,
+      },
+      {
+        headers: header,
+      },
+    )
     .then(function (response) {
-      console.log('DELETE SUCCESS------   ', JSON.stringify(response));
-      Snackbar.show({
-        text: 'Success',
-        duration: Snackbar.LENGTH_LONG,
-        backgroundColor: 'green',
-        textColor: 'white',
-      });
+      res(response);
+      //   setData(response.data.data);
     })
     .catch(function (error) {
-      console.log('ERRORRRR', error);
+      res(error);
+
+      console.log(error);
     });
 }
